@@ -1,21 +1,23 @@
-FROM node:20-alpine
+FROM node:20-alpine AS base
 
 WORKDIR /app
 
-# Copy package files
 COPY package.json yarn.lock ./
 
-# Install dependencies with yarn classic
 RUN yarn install --frozen-lockfile
 
-# Copy source code
 COPY . .
 
-# Build the application
 RUN yarn build
 
-# Expose the application port
+FROM base AS production
+
+WORKDIR /app
+
+COPY --from=base /app/dist ./dist
+COPY --from=base /app/node_modules ./node_modules
+COPY --from=base /app/package.json ./package.json
+
 EXPOSE 3000
 
-# Start the application
-CMD ["yarn", "start:prod"]
+CMD ["node", "dist/main"]
