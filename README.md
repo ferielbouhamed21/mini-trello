@@ -2,9 +2,11 @@
 
 A Trello-like kanban board application built with NestJS, Next.js, and MongoDB.
 
+[![Docker Build](https://github.com/ferielbouhamed21/mini-trello/actions/workflows/docker-build-push.yml/badge.svg)](https://github.com/ferielbouhamed21/mini-trello/actions/workflows/docker-build-push.yml)
+
 ## Architecture
 
-This project uses Docker and Docker Compose for containerization.
+This project uses Docker and Docker Compose for containerization with automated CI/CD via GitHub Actions.
 
 ## Services
 
@@ -81,6 +83,7 @@ The easiest way to run the application is with Docker Compose as described above
 ### Running Locally (Without Docker)
 
 #### Prerequisites
+
 - Node.js 20+
 - MongoDB running locally or accessible via connection string
 - Yarn package manager
@@ -186,20 +189,35 @@ yarn test:watch
 ## Technology Stack
 
 ### Backend
+
 - **NestJS**: Progressive Node.js framework
 - **MongoDB**: NoSQL database
 - **Mongoose**: MongoDB object modeling
 - **Jest**: Testing framework
 
 ### Frontend
+
 - **Next.js 15**: React framework with App Router
 - **TypeScript**: Type-safe JavaScript
 - **Tailwind CSS**: Utility-first CSS framework
 - **Jest & React Testing Library**: Testing tools
 
 ### DevOps
+
 - **Docker**: Containerization
 - **Docker Compose**: Multi-container orchestration
+- **GitHub Actions**: CI/CD pipeline for automated builds and deployments
+
+## CI/CD Pipeline
+
+This project includes a GitHub Actions pipeline that automatically:
+
+- Builds Docker images for backend and frontend when code changes
+- Pushes images to Docker Hub
+- Uses layer caching for faster builds
+- Runs on push to `master`/`main` branches
+
+**Setup Instructions**: See [CI-CD-SETUP.md](./CI-CD-SETUP.md) for detailed configuration steps.
 
 ## Health Checks
 
