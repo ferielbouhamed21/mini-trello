@@ -1,24 +1,26 @@
-FROM node:20-alpine
+FROM node:20-alpine AS base
 
 WORKDIR /app
 
-# Copy package files
 COPY package.json yarn.lock ./
 
-# Install dependencies
 RUN yarn install --frozen-lockfile
 
-# Copy source code
 COPY . .
 
-# Build the application
 RUN yarn build
 
-# Expose the application port
-EXPOSE 3001
+FROM base AS production
 
-# Set environment variable
+WORKDIR /app
+
+COPY --from=base /app/.next ./.next
+COPY --from=base /app/node_modules ./node_modules
+COPY --from=base /app/package.json ./package.json
+COPY --from=base /app/public ./public
+
 ENV PORT=3001
 
-# Start the application
+EXPOSE 3001
+
 CMD ["yarn", "start"]
